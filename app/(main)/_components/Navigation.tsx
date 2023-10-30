@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronsLeft, MenuIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import React, { useRef, ElementRef, useState, useEffect } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
+import UserItem from './UserItem'
 
 const Navigation = () => {
   const pathname = usePathname()
@@ -21,7 +22,7 @@ const Navigation = () => {
 
     let newWidth = e.clientX
 
-    if (newWidth < 240) newWidth = 240
+    if (newWidth < 320) newWidth = 320
     if (newWidth > 480) newWidth = 480
 
     if (sidebarRef.current && navbarRef.current) {
@@ -53,12 +54,12 @@ const Navigation = () => {
       setIsCollapsed(false)
       setIsResetting(true)
 
-      sidebarRef.current.style.width = isMobile ? '100%' : '240px'
+      sidebarRef.current.style.width = isMobile ? '100%' : '320px'
       navbarRef.current.style.setProperty(
         'width',
-        isMobile ? '0' : 'calc(100%-240px)'
+        isMobile ? '0' : 'calc(100%-320px)'
       )
-      navbarRef.current.style.setProperty('left', isMobile ? '100%' : '240px')
+      navbarRef.current.style.setProperty('left', isMobile ? '100%' : '320px')
 
       setTimeout(() => {
         setIsResetting(false)
@@ -100,7 +101,7 @@ const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          'group/sidebar h-full bg-background overflow-y-auto flex w-60 flex-col z-[99999] relative',
+          'group/sidebar h-full bg-background overflow-y-auto flex w-80 flex-col z-[99999] relative',
           isResetting && 'transition-all ease-in-out duration-300',
           isMobile && 'w-0'
         )}
@@ -115,9 +116,8 @@ const Navigation = () => {
         >
           <ChevronsLeft className='text-xl' />
         </div>
-        <div>
-          <p>Action Items</p>
-        </div>
+        <div className='p-4 text-xl font-bold'>Ink It</div>
+        <UserItem />
         <div className='mt-4'>
           <p>Documents</p>
         </div>
@@ -130,7 +130,7 @@ const Navigation = () => {
       <div
         ref={navbarRef}
         className={cn(
-          'absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]',
+          'absolute top-0 z-[99999] left-60 w-[calc(100%-320px)]',
           isResetting && 'transition-all ease-in-out duration-300',
           isMobile && 'left-0 w-full'
         )}
@@ -138,6 +138,7 @@ const Navigation = () => {
         <nav className='bg-transparent p-2 w-full'>
           {isCollapsed && (
             <MenuIcon
+              role='button'
               onClick={resetWidth}
               className='text-muted-foreground'
             />
