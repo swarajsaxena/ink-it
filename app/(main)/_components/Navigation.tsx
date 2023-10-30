@@ -20,6 +20,7 @@ import { api } from '@/convex/_generated/api'
 import Item from './Item'
 import { useToast } from '@/components/ui/use-toast'
 import { useSession } from 'next-auth/react'
+import DocumentList from './DocumentList'
 
 const Navigation = () => {
   const { data } = useSession()
@@ -27,7 +28,7 @@ const Navigation = () => {
   const create = useMutation(api.documents.create)
   const pathname = usePathname()
   const isMobile = useMediaQuery('(max-width: 768px)')
-  const documents = useQuery(api.documents.get)
+
 
   const isResizingRef = useRef(false)
   const sidebarRef = useRef<ElementRef<'aside'>>(null)
@@ -181,15 +182,8 @@ const Navigation = () => {
             className='text'
           />
         </div>
-        <div className='mt-4'>
-          {documents?.map((doc) => (
-            <Item
-              label={doc.title}
-              onClick={() => {}}
-              icon={FileTextIcon}
-            />
-            // <p>{doc.title}</p>
-          ))}
+        <div className='mt-4 overflow-y-auto max-h-full pb-4'>
+          <DocumentList />
         </div>
         <div
           onMouseDown={handleMouseDown}
