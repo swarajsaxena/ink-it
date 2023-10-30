@@ -1,15 +1,33 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { ChevronLeft, ChevronsLeft, MenuIcon } from 'lucide-react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  FileTextIcon,
+  MenuIcon,
+  PlusIcon,
+  SearchIcon,
+  Settings,
+} from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import React, { useRef, ElementRef, useState, useEffect } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import UserItem from './UserItem'
+import { useMutation, useQuery } from 'convex/react'
+import { api } from '@/convex/_generated/api'
+import Item from './Item'
+import { useToast } from '@/components/ui/use-toast'
+import { useSession } from 'next-auth/react'
 
 const Navigation = () => {
+  const { data } = useSession()
+  const { toast } = useToast()
+  const create = useMutation(api.documents.create)
   const pathname = usePathname()
   const isMobile = useMediaQuery('(max-width: 768px)')
+  const documents = useQuery(api.documents.get)
 
   const isResizingRef = useRef(false)
   const sidebarRef = useRef<ElementRef<'aside'>>(null)
@@ -96,6 +114,30 @@ const Navigation = () => {
     }
   }, [pathname, isMobile])
 
+  const handleCreate = async () => {
+    toast({
+      title: 'Loading..',
+      description: 'Creating a new note !!',
+    })
+    await create({
+      title: 'Untitled',
+      userId: data?.user?.email || '',
+    })
+      .then((val) => {
+        toast({
+          title: 'Success 🎉',
+          description: 'New note created !!',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'New note created !!',
+          description: err.message || err,
+          variant: 'destructive',
+        })
+      })
+  }
+
   return (
     <>
       <aside
@@ -117,9 +159,37 @@ const Navigation = () => {
           <ChevronsLeft className='text-xl' />
         </div>
         <div className='p-4 text-xl font-bold'>Ink It</div>
-        <UserItem />
+        <div className='flex flex-col'>
+          <UserItem />
+          <Item
+            onClick={() => {}}
+            label='Search'
+            isSearch
+            icon={SearchIcon}
+            className='text'
+          />
+          <Item
+            onClick={() => {}}
+            label='Settings'
+            icon={Settings}
+            className='text'
+          />
+          <Item
+            onClick={handleCreate}
+            label='New Page'
+            icon={PlusIcon}
+            className='text'
+          />
+        </div>
         <div className='mt-4'>
-          <p>Documents</p>
+          {documents?.map((doc) => (
+            <Item
+              label={doc.title}
+              onClick={() => {}}
+              icon={FileTextIcon}
+            />
+            // <p>{doc.title}</p>
+          ))}
         </div>
         <div
           onMouseDown={handleMouseDown}

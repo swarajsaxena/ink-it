@@ -13,7 +13,7 @@ const UserItem = () => {
   let [isProfileOpen, setIsProfileOpen] = useState(false)
 
   return (
-    <div className=''>
+    <div className='mb-4'>
       {data ? (
         <>
           <div
