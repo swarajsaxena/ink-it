@@ -3,7 +3,7 @@ import { useQuery } from 'convex/react'
 import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import Item from './Item'
-import { FileIcon, FileTextIcon } from 'lucide-react'
+import { FileIcon, FileTextIcon, PlusIcon } from 'lucide-react'
 import { Doc, Id } from '@/convex/_generated/dataModel'
 import { useParams, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -48,6 +48,7 @@ const DocumentList = ({
           <>
             <Item.Skeleton level={level} />
             <Item.Skeleton level={level} />
+            <Item.Skeleton level={level} />
           </>
         )}
       </>
@@ -56,20 +57,25 @@ const DocumentList = ({
 
   return (
     <div>
-      <p
-        style={{
-          paddingLeft: level ? `${level * 14 + 14}px` : undefined,
-        }}
-        className={cn(
-          'hidden text-sm font-medium text-muted-foreground/80 bg-primary/10',
-          expanded && 'last:block',
-          level === 0 && 'hidden'
-        )}
-      >
-        No Pages Inside
-      </p>
+      {level > 0 && (
+        <p
+          style={{
+            paddingLeft: level ? `${level * 10 + 10}px` : undefined,
+          }}
+          className={cn(
+            'hidden text-sm font-medium text-muted-foreground/80 bg-primary/10 opacity-50 py-2',
+            expanded && 'last:block',
+            level === 0 && 'hidden'
+          )}
+        >
+          <span className='pl-[27px]'>No Pages Inside</span>
+        </p>
+      )}
       {documents.map((document) => (
-        <div key={document._id}>
+        <div
+          key={document._id}
+          style={{}}
+        >
           <Item
             docId={document._id}
             onClick={() => onRedirect(document._id)}

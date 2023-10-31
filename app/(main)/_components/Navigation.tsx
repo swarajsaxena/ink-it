@@ -2,10 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import {
-  ChevronLeft,
-  ChevronRight,
   ChevronsLeft,
-  FileTextIcon,
   MenuIcon,
   PlusIcon,
   SearchIcon,
@@ -15,7 +12,7 @@ import { usePathname } from 'next/navigation'
 import React, { useRef, ElementRef, useState, useEffect } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import UserItem from './UserItem'
-import { useMutation, useQuery } from 'convex/react'
+import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Item from './Item'
 import { useToast } from '@/components/ui/use-toast'
@@ -28,7 +25,6 @@ const Navigation = () => {
   const create = useMutation(api.documents.create)
   const pathname = usePathname()
   const isMobile = useMediaQuery('(max-width: 768px)')
-
 
   const isResizingRef = useRef(false)
   const sidebarRef = useRef<ElementRef<'aside'>>(null)

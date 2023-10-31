@@ -1,3 +1,11 @@
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/convex/_generated/api'
@@ -10,10 +18,11 @@ import {
   LucideIcon,
   MoreHorizontal,
   PlusIcon,
+  Trash,
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import React, { MouseEventHandler } from 'react'
+import React, { HTMLAttributes, MouseEventHandler } from 'react'
 
 const Item = ({
   onClick,
@@ -39,11 +48,40 @@ const Item = ({
   isSearch?: boolean
   level?: number
   className?: string
+  styles?: HTMLAttributes<HTMLDivElement>
 }) => {
   const { toast } = useToast()
   const router = useRouter()
   const { data } = useSession()
   const create = useMutation(api.documents.create)
+  const archive = useMutation(api.documents.archive)
+
+  const onArchive = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation()
+    if (!docId) {
+      toast({
+        title: 'Id Missig',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    archive({ userId: data?.user?.email || '', id: docId })
+      .then((id) => {
+        toast({
+          title: 'Success 🎉',
+          description: 'Note Archived !!',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error',
+          description: err.message || err,
+          variant: 'destructive',
+        })
+      })
+  }
+
   const handleExpand = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
     onExpand?.()
@@ -58,7 +96,6 @@ const Item = ({
     if (!docId) {
       toast({
         title: 'Id Missig',
-        description: !docId ? 'yes' : 'np',
         variant: 'destructive',
       })
       return
@@ -81,7 +118,7 @@ const Item = ({
       })
       .catch((err) => {
         toast({
-          title: 'New note created !!',
+          title: 'Error',
           description: err.message || err,
           variant: 'destructive',
         })
@@ -91,9 +128,11 @@ const Item = ({
     <div
       onClick={onClick}
       role='button'
-      style={{ paddingLeft: level ? `${(level + 1) * 16}px` : '16px' }}
+      style={{
+        paddingLeft: level ? `${(level + 1) * 12}px` : docId ? '12px' : '20px',
+      }}
       className={cn(
-        'group py-2 pr-3 w-full hover:bg-primary/5 flex gap-2 items-center text-muted-foreground font-medium',
+        'group py-2 pr-3 w-full hover:bg-primary/5 flex gap-4 items-center text-muted-foreground font-medium',
         className,
         active && 'bg-primary/5 text-primary'
       )}
@@ -101,18 +140,21 @@ const Item = ({
       {!!docId && (
         <div
           role='button'
-          className=''
+          className='group-hover:opacity-120 h-full rounded-sm hover:bg-neutral-200/10 p-1'
           onClick={handleExpand}
         >
           <ChevronRight
-            className={cn('h-5', expanded ? 'rotate-90' : 'rotate-0')}
+            className={cn(
+              'w-4 h-4 transition-all',
+              expanded ? 'rotate-90' : 'rotate-0'
+            )}
           />
         </div>
       )}
       {documentIcon ? (
         <span className=''>{documentIcon}</span>
       ) : (
-        <Icon className='h-4 -ml-1' />
+        <Icon className='w-4 h-4 -ml-1' />
       )}
       <span className='truncate'>{label}</span>
       {isSearch && (
@@ -121,10 +163,7 @@ const Item = ({
         </kbd>
       )}
       {!!docId && (
-        <div
-          className='flex items-center gap-x-2 ml-auto'
-          onClick={handleExpand}
-        >
+        <div className='flex items-center gap-x-2 ml-auto'>
           <div
             role='button'
             onClick={onCreate}
@@ -132,12 +171,39 @@ const Item = ({
           >
             <PlusIcon className={cn('w-4 h-4 text-muted-foreground')} />
           </div>
-          <div
-            role='button'
-            className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-200/10 p-1'
-          >
-            <MoreHorizontal className={cn('w-4 h-4 text-muted-foreground')} />
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              asChild
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                role='button'
+                className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-200/10 p-1'
+              >
+                <MoreHorizontal
+                  className={cn('w-4 h-4 text-muted-foreground')}
+                />
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className='w-60 border-muted-foreground/20 z-[9999999]'
+              align='start'
+              side='right'
+              forceMount
+            >
+              <div
+                onClick={onArchive}
+                className='p-2 flex items-center hover:bg-red-500 hover:text-white rounded-sm transition-all cursor-pointer'
+              >
+                <Trash className='h-4 w-4 mr-2' />
+                Delete
+              </div>
+              <DropdownMenuSeparator />
+              <div className='text-xs text-muted-foreground p-2'>
+                Last Edited By: {data?.user?.name}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       )}
     </div>
@@ -147,11 +213,11 @@ const Item = ({
 Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
   return (
     <div
-      style={{ paddingLeft: level ? `${(level + 1) * 16}px` : '16px' }}
-      className='flex gap-x-2 py-1'
+      style={{ paddingLeft: level ? `${(level + 1) * 12}px` : '12px' }}
+      className='flex gap-x-4 py-1'
     >
-      <Skeleton className='h-4 w-4' />
-      <Skeleton className='h-4 w-[30%]' />
+      <Skeleton className='h-5 w-5' />
+      <Skeleton className='h-5 w-[30%]' />
     </div>
   )
 }
