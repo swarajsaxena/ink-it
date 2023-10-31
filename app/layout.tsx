@@ -24,11 +24,11 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang='en'>
-        <body className={inter.className}>
+        <body className={inter.className + "max-w-[100wh] overflow-hidden"}>
           <ConvexClientProvider>
             <ThemeProvider
               attribute='class'
-              defaultTheme='dark'
+              // defaultTheme=''
               enableSystem
               disableTransitionOnChange
               storageKey='ink_it_2'
