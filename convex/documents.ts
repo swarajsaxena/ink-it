@@ -185,3 +185,21 @@ export const remove = mutation({
     return document
   },
 })
+
+export const getSearch = query({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    if (args.userId === '') {
+      throw new Error('not authenticated')
+    }
+
+    const documents = await ctx.db
+      .query('documents')
+      .withIndex('by_user', (q) => q.eq('userId', args.userId))
+      .filter((q) => q.eq(q.field('isArchived'), false))
+      .order('desc')
+      .collect()
+
+    return documents
+  },
+})

@@ -1,32 +1,17 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import {
-  ChevronsLeft,
-  MenuIcon,
-  Plus,
-  PlusCircle,
-  PlusIcon,
-  SearchIcon,
-  Settings,
-  Trash2,
-} from 'lucide-react'
+import { ChevronsLeft, MenuIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import React, { useRef, ElementRef, useState, useEffect } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
-import UserItem from './UserItem'
 import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
-import Item from './Item'
 import { useToast } from '@/components/ui/use-toast'
 import { useSession } from 'next-auth/react'
-import DocumentList from './DocumentList'
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from '@/components/ui/popover'
-import TrashBox from './TrashBox'
+import TopSection from './TopSection'
+import MiddleSection from './MiddleSection'
+import BottomSection from './BottomSection'
 
 const Navigation = () => {
   const { data } = useSession()
@@ -165,53 +150,9 @@ const Navigation = () => {
           <ChevronsLeft className='text-xl' />
         </div>
         <div className='p-4 text-xl font-bold'>Ink It</div>
-        <div className='flex flex-col'>
-          <UserItem />
-          <Item
-            onClick={() => {}}
-            label='Search'
-            isSearch
-            icon={SearchIcon}
-            className='text'
-          />
-          <Item
-            onClick={() => {}}
-            label='Settings'
-            icon={Settings}
-            className='text'
-          />
-          <Item
-            onClick={handleCreate}
-            label='New Page'
-            icon={PlusCircle}
-            className=''
-          />
-        </div>
-        <div className='mt-4 overflow-y-auto max-h-full pb-4'>
-          <DocumentList />
-
-          <Item
-            onClick={handleCreate}
-            icon={Plus}
-            label={'Add a page'}
-          />
-        </div>
-        <Popover>
-          <PopoverTrigger className='mt-auto'>
-            <div className='p-2'>
-              <div className='flex text-muted-foreground p-1 items-center gap-1 hover:bg-primary rounded-sm transition-all cursor-pointer hover:text-white'>
-                <Trash2 className='h-4' />
-                Trash
-              </div>
-            </div>
-          </PopoverTrigger>
-          <PopoverContent
-            side={isMobile ? 'bottom' : 'right'}
-            className='p-0 w-72 border-muted-foreground/20 mb-2 ml-1'
-          >
-            <TrashBox />
-          </PopoverContent>
-        </Popover>
+        <TopSection handleCreate={handleCreate} />
+        <MiddleSection handleCreate={handleCreate} />
+        <BottomSection isMobile={isMobile} />
         <div
           onMouseDown={handleMouseDown}
           onClick={resetWidth}

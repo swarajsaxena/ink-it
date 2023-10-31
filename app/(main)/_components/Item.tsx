@@ -140,7 +140,7 @@ const Item = ({
       {!!docId && (
         <div
           role='button'
-          className='group-hover:opacity-120 h-full rounded-sm hover:bg-neutral-200/10 p-1'
+          className='group-hover:opacity-120 h-full rounded-sm hover:bg-primary/10 p-1'
           onClick={handleExpand}
         >
           <ChevronRight
@@ -167,7 +167,7 @@ const Item = ({
           <div
             role='button'
             onClick={onCreate}
-            className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-200/10 p-1'
+            className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-primary/10 p-1'
           >
             <PlusIcon className={cn('w-4 h-4 text-muted-foreground')} />
           </div>
@@ -178,7 +178,7 @@ const Item = ({
             >
               <div
                 role='button'
-                className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-200/10 p-1'
+                className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-primary/10 p-1'
               >
                 <MoreHorizontal
                   className={cn('w-4 h-4 text-muted-foreground')}

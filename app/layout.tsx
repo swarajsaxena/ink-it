@@ -28,7 +28,7 @@ export default async function RootLayout({
           <ConvexClientProvider>
             <ThemeProvider
               attribute='class'
-              // defaultTheme=''
+              defaultTheme='dark'
               enableSystem
               disableTransitionOnChange
               storageKey='ink_it_2'
