@@ -132,9 +132,9 @@ const Item = ({
         paddingLeft: level ? `${(level + 1) * 12}px` : docId ? '12px' : '20px',
       }}
       className={cn(
-        'group py-2 pr-3 w-full hover:bg-primary/5 flex gap-4 items-center text-muted-foreground font-medium',
+        'group py-2 pr-3 w-full hover:bg-secondary/50 flex gap-4 items-center text-muted-foreground font-medium',
         className,
-        active && 'bg-primary/5 text-primary'
+        active && 'bg-secondary dark:text-primary-foreground'
       )}
     >
       {!!docId && (
