@@ -31,7 +31,6 @@ const page = () => {
 
   useEffect(() => {
     provider.then((val) => {
-      console.log(val)
       setProviders(val)
     })
   }, [])

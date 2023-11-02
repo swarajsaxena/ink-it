@@ -1,11 +1,14 @@
 import { api } from '@/convex/_generated/api'
-import { Id } from '@/convex/_generated/dataModel'
+import { Doc, Id } from '@/convex/_generated/dataModel'
 import { useQuery } from 'convex/react'
-import { Menu } from 'lucide-react'
+import { ChevronRight, Menu, MoreHorizontal } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import Title from './Title'
+import { Button } from '@/components/ui/button'
+import Banner from './Banner'
+import MoreOptions from './Menu'
 
 const Navbar = ({
   isCollapsed,
@@ -15,16 +18,23 @@ const Navbar = ({
   onResetWidth: () => void
 }) => {
   const params = useParams()
+  const router = useRouter()
   const { data } = useSession()
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<'documents'>,
     userId: data?.user?.email || '',
   })
 
+  const parents = useQuery(api.documents.getDocumentHierarchy, {
+    iniId: params.documentId as Id<'documents'>,
+    userId: data?.user?.email || '',
+  })
+
   if (document === undefined) {
     return (
-      <nav className='bg-background px-3 py-2 w-full flex items-center gap-2 text-muted-foreground pt-4'>
+      <nav className='bg-background px-3 py-2 w-full flex items-center gap-2 text-muted-foreground pt-4 justify-between border-b-2 border-input'>
         <Title.Skeleton />
+        <MoreOptions.Skeleton />
       </nav>
     )
   }
@@ -33,9 +43,11 @@ const Navbar = ({
     return null
   }
 
+  const newParents = parents?.slice().reverse()
+
   return (
     <>
-      <div className='bg-background px-3 py-2 w-full flex items-center gap-2 text-muted-foreground'>
+      <div className='bg-background dark:bg-[#1a1f28] px-3 py-3 w-full flex items-center gap-2 text-muted-foreground border-b-2 border-input'>
         {isCollapsed && (
           <Menu
             role='button'
@@ -43,10 +55,74 @@ const Navbar = ({
             className='h-6 w-6'
           />
         )}
-        <div className='flex items-center justify-between w-full'>
-          <Title initialData={document} />
+        <div className='flex items-center gap-2 justify-between w-full'>
+          <div className='flex items-center gap-2'>
+            {newParents
+              ? newParents.length > 4
+                ? newParents
+                    .slice(newParents.length - 1 - 3, newParents.length - 1)
+                    .map((parent, index) =>
+                      index === 0 ? (
+                        <>
+                          {true && (
+                            <>
+                              <div
+                                onClick={() => {
+                                  router.push(`/documents/${parent.id}`)
+                                }}
+                                className='font-normal capitalize aspect-square rounded-md grid place-content-center cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors'
+                              >
+                                <MoreHorizontal className='w-4 h-4' />
+                              </div>
+                              <ChevronRight className='w-4 h-4' />
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={() => {
+                              router.push(`/documents/${parent.id}`)
+                            }}
+                            variant={'ghost'}
+                            size={'sm'}
+                            className='font-normal capitalize px-1 py-[2px] h-auto'
+                          >
+                            {parent.title}
+                          </Button>
+                          <span>
+                            <ChevronRight className='w-4 h-4' />
+                          </span>
+                        </>
+                      )
+                    )
+                : newParents.map(
+                    (parent, index) =>
+                      index !== newParents.length - 1 && (
+                        <>
+                          <Button
+                            onClick={() => {
+                              router.push(`/documents/${parent.id}`)
+                            }}
+                            variant={'ghost'}
+                            size={'sm'}
+                            className='font-normal capitalize px-1 py-[2px] h-auto'
+                          >
+                            {parent.title}
+                          </Button>
+                          <span>
+                            <ChevronRight className='w-4 h-4' />
+                          </span>
+                        </>
+                      )
+                  )
+              : null}
+            <Title initialData={document} />
+          </div>
+          <MoreOptions docId={document._id} />
         </div>
       </div>
+      {document.isArchived && <Banner docId={document._id} />}
     </>
   )
 }

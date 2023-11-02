@@ -68,13 +68,10 @@ const Navigation = () => {
       sidebarRef.current.style.width = isMobile ? '100%' : '320px'
       navbarRef.current.style.setProperty(
         'width',
-        isMobile ? '0' : 'calc(100%-320px)'
+        isMobile ? '0' : 'calc(100% - 320px)'
       )
       navbarRef.current.style.setProperty('left', isMobile ? '100%' : '320px')
-
-      setTimeout(() => {
-        setIsResetting(false)
-      }, 300)
+      setTimeout(() => setIsResetting(false), 300)
     }
   }
 
@@ -136,7 +133,7 @@ const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          'group/sidebar h-full bg-background overflow-y-auto flex w-80 flex-col z-[99999] relative border-r border-2',
+          'group/sidebar h-full bg-background overflow-y-auto flex w-80 flex-col z-[99999] relative border-r-2',
           isResetting && 'transition-all ease-in-out duration-300',
           isMobile && 'w-0'
         )}

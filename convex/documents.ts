@@ -320,3 +320,39 @@ export const removeCoverImage = mutation({
     return document
   },
 })
+
+export const getDocumentHierarchy = query({
+  args: {
+    iniId: v.id('documents'), // The initial document ID you provide
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    if (args.userId === '' || args.userId === null) {
+      throw new Error('not authenticated')
+    }
+
+    const result: {
+      id: Id<'documents'>
+      title: string
+    }[] = []
+
+    const recursiveGetHierarchy = async (documentId: Id<'documents'>) => {
+      const doc = await ctx.db.get(documentId)
+      if (!doc) {
+        throw new Error('Document not found')
+      }
+
+      const obj = { id: doc._id, title: doc.title }
+
+      result.push(obj)
+
+      if (doc.parentDocument) {
+        await recursiveGetHierarchy(doc.parentDocument)
+      }
+    }
+
+    await recursiveGetHierarchy(args.iniId)
+
+    return result
+  },
+})

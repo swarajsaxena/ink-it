@@ -4,6 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { Doc } from '@/convex/_generated/dataModel'
 import { useMutation, useQuery } from 'convex/react'
+import { ChevronRight } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react'
 
@@ -52,14 +53,14 @@ const Title = ({ initialData }: { initialData: Doc<'documents'> }) => {
           onChange={onChange}
           onKeyDown={onKeyDown}
           value={title}
-          className='p-1 px-2 focus-visible:ring-transparent'
+          className='px-4 focus-visible:ring-transparent capitalize h-auto py-1'
         />
       ) : (
         <Button
           onClick={enableInput}
           variant={'ghost'}
           size={'sm'}
-          className='font-normal h-auto p-1 px-2'
+          className='font-normal capitalize border border-input h-auto py-1'
         >
           {!!initialData.icon && <p>{initialData.icon}</p>}{' '}
           <span className='truncate'>{initialData.title}</span>
@@ -70,7 +71,13 @@ const Title = ({ initialData }: { initialData: Doc<'documents'> }) => {
 }
 
 Title.Skeleton = function TitleSkeleton() {
-  return <Skeleton className='h-4 w-20 rounded-md' />
+  return (
+    <div className='flex items-center gap-2'>
+      <Skeleton className='h-7 w-20 rounded-md' />
+      <ChevronRight className='h-4 w-4' />
+      <Skeleton className='h-7 w-20 rounded-md' />
+    </div>
+  )
 }
 
 export default Title
