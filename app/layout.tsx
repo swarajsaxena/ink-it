@@ -9,6 +9,7 @@ import { ThemeProvider } from '@/components/providers/theme-provider'
 import { ConvexClientProvider } from '@/components/providers/convex-provider'
 import SessionProvider from '@/components/providers/SessionProvider'
 import { ModalProvider } from '@/components/providers/modal-provider'
+import { EdgeStoreProvider } from '@/lib/edgestore'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,17 +29,19 @@ export default async function RootLayout({
       <html lang='en'>
         <body className={inter.className + 'max-w-[100wh] overflow-hidden'}>
           <ConvexClientProvider>
-            <ThemeProvider
-              attribute='class'
-              defaultTheme='dark'
-              enableSystem
-              disableTransitionOnChange
-              storageKey='ink_it_2'
-            >
-              {children}
-              <Toaster />
-              <ModalProvider />
-            </ThemeProvider>
+            <EdgeStoreProvider>
+              <ThemeProvider
+                attribute='class'
+                defaultTheme='dark'
+                enableSystem
+                disableTransitionOnChange
+                storageKey='ink_it_2'
+              >
+                {children}
+                <Toaster />
+                <ModalProvider />
+              </ThemeProvider>
+            </EdgeStoreProvider>
           </ConvexClientProvider>
         </body>
       </html>

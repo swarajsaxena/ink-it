@@ -1,5 +1,6 @@
 'use client'
 
+import Cover from '@/components/Cover'
 import Toolbar from '@/components/Toolbar'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
@@ -31,8 +32,8 @@ const page = ({
   }
 
   return (
-    <div className='pt-[66px] h-full bg-background  dark:bg-[#1a1f28] pb-40'>
-      <div className='h-52' />
+    <div className='pt-[62px] h-full bg-background  dark:bg-[#1a1f28] pb-40'>
+      <Cover url={document.coverImage as string} />
       <div className='md:max-w-3xl lg:max-w-4xl mx-auto'>
         <Toolbar initialData={document} />
       </div>
