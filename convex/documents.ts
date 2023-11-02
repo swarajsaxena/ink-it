@@ -332,6 +332,7 @@ export const getDocumentHierarchy = query({
     }
 
     const result: {
+      icon: any
       id: Id<'documents'>
       title: string
     }[] = []
@@ -342,7 +343,7 @@ export const getDocumentHierarchy = query({
         throw new Error('Document not found')
       }
 
-      const obj = { id: doc._id, title: doc.title }
+      const obj = { id: doc._id, title: doc.title, icon: doc.icon || null }
 
       result.push(obj)
 

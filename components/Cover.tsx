@@ -25,29 +25,34 @@ const Cover = ({ url, preview }: { url: string; preview?: boolean }) => {
     toast({
       description: 'Removing coover...',
     })
-    removCover({
-      id: params.documentId as Id<'documents'>,
-      userId: data?.user?.email || '',
-    })
-      .then(() => {
-        toast({
-          description: 'Cover Removed',
-        })
+    edgestore.publicFiles
+      .delete({
+        url,
       })
-      .catch((e) => {
-        toast({
-          title: 'Something went wrong...',
-          description: e.message,
-          variant: 'destructive',
+      .then(() => {
+        removCover({
+          id: params.documentId as Id<'documents'>,
+          userId: data?.user?.email || '',
         })
+          .then(() => {
+            toast({
+              description: 'Cover Removed',
+            })
+          })
+          .catch((e) => {
+            toast({
+              title: 'Something went wrong...',
+              description: e.message,
+              variant: 'destructive',
+            })
+          })
       })
   }
   return (
     <div
       className={cn(
         'relative w-full h-[35vh] group flex items-center justify-center p-3',
-        !url && 'h-[12vh]',
-        url && '-mb-12'
+        !url && 'h-[12vh]'
       )}
     >
       <div
@@ -59,7 +64,7 @@ const Cover = ({ url, preview }: { url: string; preview?: boolean }) => {
         {!!url && !preview && (
           <div className='absolute z-10 bottom-2 right-2 opacity-0 group-hover:opacity-100 transition flex items-center gap-2'>
             <Button
-              onClick={coverImage.onOpen}
+              onClick={() => coverImage.onReplace(url)}
               className='text-muted-foreground text-start px-2 py-1 h-auto'
               variant={'secondary'}
               size={'sm'}

@@ -15,6 +15,7 @@ import { useToast } from '../ui/use-toast'
 const CoverImageModal = () => {
   const coverImage = useCoverImage()
   let [file, setFile] = useState<File>()
+  let [progress, setprogress] = useState<number>(0)
   let [isSubmitting, setIsSubmitting] = useState(false)
   const { data } = useSession()
   const update = useMutation(api.documents.update)
@@ -35,7 +36,15 @@ const CoverImageModal = () => {
       setFile(file)
 
       await edgestore.publicFiles
-        .upload({ file })
+        .upload({
+          file,
+          onProgressChange: (prog) => {
+            setprogress(prog)
+          },
+          options: {
+            replaceTargetUrl: coverImage?.url || undefined,
+          },
+        })
         .then((file) => {
           update({
             id: params.documentId as Id<'documents'>,
@@ -74,6 +83,7 @@ const CoverImageModal = () => {
           disabled={isSubmitting}
           value={file}
           onChange={onChange}
+          progress={progress}
         />
       </DialogContent>
     </Dialog>

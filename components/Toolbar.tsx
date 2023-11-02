@@ -74,7 +74,7 @@ const Toolbar = ({
     <div className='pl-[54px] group relative -space-y-2'>
       {!!initialData.icon ? (
         !preview ? (
-          <div className='flex items-center gap-2 group-icon relative w-max -ml-[10px]'>
+          <div className='flex items-center gap-2 group-icon relative w-max -ml-[10px] -mt-12'>
             <IconPicker
               asChild
               onChange={onIconSelect}

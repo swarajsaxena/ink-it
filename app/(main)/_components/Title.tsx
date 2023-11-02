@@ -62,7 +62,7 @@ const Title = ({ initialData }: { initialData: Doc<'documents'> }) => {
           size={'sm'}
           className='font-normal capitalize border border-input h-auto py-1'
         >
-          {!!initialData.icon && <p>{initialData.icon}</p>}{' '}
+          {!!initialData.icon && <p className='mr-1'>{initialData.icon}</p>}{' '}
           <span className='truncate'>{initialData.title}</span>
         </Button>
       )}

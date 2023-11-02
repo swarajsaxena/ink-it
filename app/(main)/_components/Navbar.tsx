@@ -88,6 +88,9 @@ const Navbar = ({
                             size={'sm'}
                             className='font-normal capitalize px-1 py-[2px] h-auto'
                           >
+                            {parent.icon && (
+                              <span className='mr-1'>{parent.icon}</span>
+                            )}
                             {parent.title}
                           </Button>
                           <span>
@@ -108,6 +111,9 @@ const Navbar = ({
                             size={'sm'}
                             className='font-normal capitalize px-1 py-[2px] h-auto'
                           >
+                            {parent.icon && (
+                              <span className='mr-1'>{parent.icon}</span>
+                            )}
                             {parent.title}
                           </Button>
                           <span>

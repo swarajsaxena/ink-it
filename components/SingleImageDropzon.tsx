@@ -1,6 +1,6 @@
 'use client'
 
-import { UploadCloudIcon, X } from 'lucide-react'
+import { Loader, Loader2Icon, UploadCloudIcon, X } from 'lucide-react'
 import * as React from 'react'
 import { useDropzone, type DropzoneOptions } from 'react-dropzone'
 import { twMerge } from 'tailwind-merge'
@@ -26,6 +26,7 @@ type InputProps = {
   onChange?: (file?: File) => void | Promise<void>
   disabled?: boolean
   dropzoneOptions?: Omit<DropzoneOptions, 'disabled'>
+  progress: number
 }
 
 const ERROR_MESSAGES = {
@@ -45,7 +46,16 @@ const ERROR_MESSAGES = {
 
 const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { dropzoneOptions, width, height, value, className, disabled, onChange },
+    {
+      dropzoneOptions,
+      width,
+      height,
+      value,
+      className,
+      disabled,
+      onChange,
+      progress,
+    },
     ref
   ) => {
     const imageUrl = React.useMemo(() => {
@@ -124,8 +134,11 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className='relative'>
         {disabled && (
-          <div className='flex items-center justify-center absolute inset-y-0 h-full w-full bg-background/80 z-50'>
-            <Spinner size={'lg'} />
+          <div className='flex flex-col gap-2 items-center justify-center absolute inset-y-0 h-full w-full bg-background/80 z-50'>
+            <div className='px-4 py-2 flex items-center gap-2 rounded-sm bg-muted text-muted-foreground'>
+              <Loader2Icon className='animate-spin h-4 w-4' />
+              <span className=''>{progress + ' %'}</span>
+            </div>
           </div>
         )}
         <div
@@ -145,11 +158,13 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
 
           {imageUrl ? (
             // Image Preview
-            <img
-              className='h-full w-full rounded-md object-cover'
-              src={imageUrl}
-              alt={acceptedFiles[0]?.name}
-            />
+            <>
+              <img
+                className='h-full w-full rounded-md object-cover'
+                src={imageUrl}
+                alt={acceptedFiles[0]?.name}
+              />
+            </>
           ) : (
             // Upload Icon
             <div className='flex flex-col items-center justify-center text-xs text-gray-400'>
