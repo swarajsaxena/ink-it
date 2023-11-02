@@ -11,7 +11,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
 
   if (session === null) {
     // console.log(data?.user);
-    return redirect('/')
+    // return redirect('/')
   }
 
   return (
