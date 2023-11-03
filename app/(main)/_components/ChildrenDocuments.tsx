@@ -21,9 +21,9 @@ const ChildrenDocuments = ({
               onClick={() => {
                 router.push(`/documents/${child._id}`)
               }}
-              variant={'ghost'}
+              variant={'default'}
               size={'sm'}
-              className='font-normal capitalize border border-input h-auto py-1 px-2 w-max max-w-full md:max-w-[50%]'
+              className='font-normal h-auto py-1 px-2 w-max max-w-full md:max-w-[50%] bg-foreground/10 hover:bg-primary/40 dark:hover:bg-primary text-foreground'
             >
               <div className='truncate flex'>
                 {!!child.icon && <p className='mr-1'>{child.icon}</p>}
