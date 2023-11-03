@@ -32,6 +32,7 @@ const Toolbar = ({
     setTimeout(() => {
       setValue(initialData.title)
       inputRef.current?.focus()
+      inputRef.current?.setSelectionRange(inputRef.current.value.length, inputRef.current.value.length)
     }, 0)
   }
 
@@ -43,7 +44,7 @@ const Toolbar = ({
     setValue(val)
     update({
       userId: data?.user?.email || '',
-      title: value || 'Untitled',
+      title: val || 'Untitled',
       id: initialData._id,
     })
   }
@@ -128,8 +129,10 @@ const Toolbar = ({
           onBlur={disableInput}
           onKeyDown={onKeyDown}
           value={value}
-          onChange={(e) => onInput(e.target.value)}
-          className='text-5xl bg-transparent font-bold break-words outline-none text-muted-foreground resize-none'
+          onChange={(e) => {
+            onInput(e.target.value)
+          }}
+          className='text-5xl bg-transparent font-bold break-words outline-none text-muted-foreground resize-none w-full no-scrollbar'
         />
       ) : (
         <div

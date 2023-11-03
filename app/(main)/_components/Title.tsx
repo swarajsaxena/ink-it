@@ -60,7 +60,7 @@ const Title = ({ initialData }: { initialData: Doc<'documents'> }) => {
           onClick={enableInput}
           variant={'ghost'}
           size={'sm'}
-          className='font-normal capitalize border border-input h-auto py-1'
+          className='font-normal capitalize border border-input h-auto py-1 max-w-[175px]'
         >
           {!!initialData.icon && <p className='mr-1'>{initialData.icon}</p>}{' '}
           <span className='truncate'>{initialData.title}</span>

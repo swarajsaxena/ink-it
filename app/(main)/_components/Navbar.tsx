@@ -96,7 +96,7 @@ const Navbar = ({
                             }}
                             variant={'ghost'}
                             size={'sm'}
-                            className='font-normal capitalize px-1 py-[2px] h-auto'
+                            className='font-normal capitalize px-1 py-[2px] h-auto max-w-[175px] flex justify-start truncate'
                           >
                             {parent.icon && (
                               <span className='mr-1'>{parent.icon}</span>
@@ -119,7 +119,7 @@ const Navbar = ({
                             }}
                             variant={'ghost'}
                             size={'sm'}
-                            className='font-normal capitalize px-1 py-[2px] h-auto'
+                            className='font-normal capitalize px-1 py-[2px] h-auto max-w-[175px] flex justify-start truncate'
                           >
                             {parent.icon && (
                               <span className='mr-1'>{parent.icon}</span>

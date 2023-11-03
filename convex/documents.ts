@@ -53,9 +53,6 @@ export const getSidebar = query({
     userId: v.string(),
   },
   handler: async (ctx, args) => {
-    if (args.userId === '' || args.userId === null) {
-      throw new Error('not authenticated')
-    }
     return await ctx.db
       .query('documents')
       .withIndex('by_user_parent', (q) =>

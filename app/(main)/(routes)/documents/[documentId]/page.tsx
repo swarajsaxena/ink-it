@@ -7,9 +7,15 @@ import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { useMutation, useQuery } from 'convex/react'
 import { useSession } from 'next-auth/react'
-import { useParams, useRouter } from 'next/navigation'
+import { redirect, useParams, useRouter } from 'next/navigation'
 import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
+import { Button } from '@/components/ui/button'
+import { FileIcon } from 'lucide-react'
+import Link from 'next/link'
+import { Spinner } from '@/components/Spinner'
+import ProtectedRoute from '@/components/ProtectedRoute'
+import ChildrenDocuments from '@/app/(main)/_components/ChildrenDocuments'
 
 const page = ({
   params,
@@ -18,21 +24,32 @@ const page = ({
     documentId: Id<'documents'>
   }
 }) => {
+  const { data: session } = useSession()
+
+  if (session === null) {
+    return redirect('/')
+  }
+
   const Editor = useMemo(
     () => dynamic(() => import('@/components/Editor'), { ssr: false }),
     []
   )
 
   const router = useRouter()
-  const { data } = useSession()
   const update = useMutation(api.documents.update)
+
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<'documents'>,
-    userId: data?.user?.email || '',
+    userId: session?.user?.email || '',
     preview: false,
   })
 
-  if (document === undefined) {
+  const documents = useQuery(api.documents.getSidebar, {
+    userId: session?.user?.email || '',
+    parentDocument: document?._id,
+  })
+
+  if (document === undefined || documents === undefined) {
     return <div>loading...</div>
   }
 
@@ -42,23 +59,26 @@ const page = ({
 
   const onChange = (content: string) => {
     update({
-      userId: data?.user?.email || '',
+      userId: session?.user?.email || '',
       id: params.documentId,
       content,
     })
   }
 
   return (
-    <div className='pt-[62px] h-full bg-background  dark:bg-[#1a1f28] pb-40'>
-      <Cover url={document.coverImage as string} />
-      <div className='md:max-w-3xl lg:max-w-4xl mx-auto pb-40 flex flex-col justify-stretch'>
-        <Toolbar initialData={document} />
-        <Editor
-          onChange={onChange}
-          initialContent={document.content as string}
-        />
+    <ProtectedRoute>
+      <div className='pt-[62px] h-full bg-background  dark:bg-[#1a1f28] pb-40'>
+        <Cover url={document.coverImage as string} />
+        <div className='md:max-w-3xl lg:max-w-4xl mx-auto pb-40 flex flex-col justify-stretch'>
+          <Toolbar initialData={document} />
+          <ChildrenDocuments documents={documents} />
+          <Editor
+            onChange={onChange}
+            initialContent={document.content as string}
+          />
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   )
 }
 

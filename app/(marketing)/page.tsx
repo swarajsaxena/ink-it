@@ -22,6 +22,7 @@ const page = () => {
     // console.log(data?.user);
     return redirect('/documents')
   }
+  
   const provider = getProviders()
 
   let [providers, setProviders] = useState<Record<

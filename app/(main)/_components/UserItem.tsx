@@ -6,11 +6,13 @@ import { cn } from '@/lib/utils'
 import { ChevronsUpDown } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const UserItem = () => {
   const { data } = useSession()
   let [isProfileOpen, setIsProfileOpen] = useState(false)
+  const router = useRouter()
 
   return (
     <div className='mb-4'>
@@ -20,7 +22,11 @@ const UserItem = () => {
             className='px-4 p-2 flex items-center gap-2 justify-between hover:bg-muted-foreground/5 transition-all cursor-pointer'
             onClick={() => setIsProfileOpen(!isProfileOpen)}
           >
-            <div className='w-8 h-8 bg-primary rounded-xl' />
+            <img
+              src={data.user?.image || ''}
+              alt='user image'
+              className='w-8 h-8 rounded-xl'
+            />
             <div>{data?.user?.name}</div>
             <ChevronsUpDown
               width={16}
@@ -36,7 +42,11 @@ const UserItem = () => {
           >
             <div className='px-4 py-2'>
               <Button
-                onClick={() => signOut()}
+                onClick={() =>
+                  signOut().then(() => {
+                    router.push('/')
+                  })
+                }
                 size={'sm'}
                 variant={'secondary'}
                 className='w-full'
