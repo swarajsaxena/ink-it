@@ -7,8 +7,8 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId:
-        '402397592714-bn0sirekfmfci1gmdhet32q804mh6uma.apps.googleusercontent.com',
-      clientSecret: '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',
+        '730204526238-jmabug0vfj8c6rd9pnnuj5q3r1q9n2k1.apps.googleusercontent.com',
+      clientSecret: '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',
     }),
     GithubProvider({
       clientId: 'Iv1.884af479c8216d98',
