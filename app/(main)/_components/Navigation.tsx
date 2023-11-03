@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { ChevronsLeft, MenuIcon } from 'lucide-react'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import React, { useRef, ElementRef, useState, useEffect } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import { useMutation } from 'convex/react'
@@ -16,6 +16,7 @@ import Navbar from './Navbar'
 
 const Navigation = () => {
   const { data } = useSession()
+  const router = useRouter()
   const { toast } = useToast()
   const create = useMutation(api.documents.create)
   const pathname = usePathname()
@@ -118,6 +119,7 @@ const Navigation = () => {
           title: 'Success 🎉',
           description: 'New note created !!',
         })
+        router.push(`/documents/${val}`)
       })
       .catch((err) => {
         toast({

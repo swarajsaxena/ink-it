@@ -62,7 +62,7 @@ const Cover = ({ url, preview }: { url: string; preview?: boolean }) => {
         )}
       >
         {!!url && !preview && (
-          <div className='absolute z-10 bottom-2 right-2 opacity-0 group-hover:opacity-100 transition flex items-center gap-2'>
+          <div className='absolute z-10 bottom-2 right-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition flex items-center gap-2'>
             <Button
               onClick={() => coverImage.onReplace(url)}
               className='text-muted-foreground text-start px-2 py-1 h-auto'

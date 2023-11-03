@@ -1,7 +1,7 @@
 import { api } from '@/convex/_generated/api'
 import { Doc, Id } from '@/convex/_generated/dataModel'
 import { useQuery } from 'convex/react'
-import { ChevronRight, Menu, MoreHorizontal } from 'lucide-react'
+import { ChevronRight, Menu, MoreHorizontal, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
@@ -55,6 +55,14 @@ const Navbar = ({
             className='h-6 w-6'
           />
         )}
+        <Button
+          size={'icon'}
+          className='h-auto px-0 w-max p-1 font-normal capitalize aspect-square rounded-md grid place-content-center cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors'
+          variant={'ghost'}
+          onClick={() => router.push('/documents')}
+        >
+          <X className='w-4 h-4' />
+        </Button>
         <div className='flex items-center gap-2 justify-between w-full'>
           <div className='flex items-center gap-2'>
             {newParents

@@ -110,7 +110,7 @@ const Item = ({
         if (!expanded) {
           onExpand?.()
         }
-        // router.push(`/documents/${id}`)
+        router.push(`/documents/${id}`)
         toast({
           title: 'Success 🎉',
           description: 'New note created !!',

@@ -85,7 +85,7 @@ const Toolbar = ({
             </IconPicker>
             <div
               onClick={onIconRemove}
-              className='absolute -right-1 -bottom-1 rounded-full opacity-0 group-hover:opacity-100 transition text-muted-foreground text-xs cursor-pointer border border-transparent hover:border-input p-1 bg-background/70 hover:bg-background'
+              className='absolute -right-1 -bottom-1 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition text-muted-foreground text-xs cursor-pointer border border-transparent hover:border-input p-1 bg-background/70 hover:bg-background'
             >
               <X className='h-4 w-4' />
             </div>

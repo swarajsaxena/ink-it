@@ -8,10 +8,12 @@ import { PlusCircle } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import React from 'react'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
   const { data } = useSession()
   const { toast } = useToast()
+  const router = useRouter()
 
   const create = useMutation(api.documents.create)
 
@@ -28,6 +30,7 @@ const page = () => {
           title: 'New note created !!',
           description: val,
         })
+        router.push(`/documents/${val}`)
       })
       .catch((err) => {
         toast({
