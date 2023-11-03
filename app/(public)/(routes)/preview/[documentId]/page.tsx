@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
+import { Spinner } from '@/components/Spinner'
 
 const page = ({
   params,
@@ -28,12 +29,16 @@ const page = ({
   const update = useMutation(api.documents.update)
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<'documents'>,
-    userId: data?.user?.email || '',
-    preview: false,
+    userId: '',
+    preview: true,
   })
 
   if (document === undefined) {
-    return <div>loading...</div>
+    return (
+      <div className='w-full h-full flex justify-center items-center'>
+        <Spinner />
+      </div>
+    )
   }
 
   if (document === null) {
@@ -49,11 +54,18 @@ const page = ({
   }
 
   return (
-    <div className='pt-[62px] h-full bg-background  dark:bg-[#1a1f28] pb-40'>
-      <Cover url={document.coverImage as string} />
+    <div className='h-full bg-background  dark:bg-[#1a1f28] pb-40'>
+      <Cover
+        preview
+        url={document.coverImage as string}
+      />
       <div className='md:max-w-3xl lg:max-w-4xl mx-auto pb-40 flex flex-col justify-stretch'>
-        <Toolbar initialData={document} />
+        <Toolbar
+          preview
+          initialData={document}
+        />
         <Editor
+          editable={false}
           onChange={onChange}
           initialContent={document.content as string}
         />

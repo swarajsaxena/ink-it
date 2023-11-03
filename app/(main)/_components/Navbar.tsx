@@ -9,6 +9,7 @@ import Title from './Title'
 import { Button } from '@/components/ui/button'
 import Banner from './Banner'
 import MoreOptions from './Menu'
+import Publish from './Publish'
 
 const Navbar = ({
   isCollapsed,
@@ -23,6 +24,7 @@ const Navbar = ({
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<'documents'>,
     userId: data?.user?.email || '',
+    preview: false,
   })
 
   const parents = useQuery(api.documents.getDocumentHierarchy, {
@@ -133,7 +135,10 @@ const Navbar = ({
               : null}
             <Title initialData={document} />
           </div>
-          <MoreOptions docId={document._id} />
+          <div className='flex items-center gap-1'>
+            <Publish initialData={document} />
+            <MoreOptions docId={document._id} />
+          </div>
         </div>
       </div>
       {document.isArchived && <Banner docId={document._id} />}

@@ -121,3 +121,7 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+.mantine-1j7p672 .ProseMirror {
+  background: transparent !important;
+}

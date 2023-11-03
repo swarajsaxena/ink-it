@@ -208,10 +208,13 @@ export const getById = query({
   args: {
     documentId: v.id('documents'),
     userId: v.string(),
+    preview: v.boolean(),
   },
   handler: async (ctx, args) => {
-    if (args.userId === '' || args.userId === null) {
-      throw new Error('not authenticated')
+    if (args.preview === false) {
+      if (args.userId === '' || args.userId === null) {
+        throw new Error('not authenticated')
+      }
     }
 
     const doc = await ctx.db.get(args.documentId)
@@ -224,12 +227,13 @@ export const getById = query({
       return doc
     }
 
-    if (args.userId === '' || args.userId === null) {
-      throw new Error('not authenticated')
-    }
-
-    if (doc.userId !== args.userId) {
-      throw new Error('not authorised')
+    if (args.preview === false) {
+      if (args.userId === '' || args.userId === null) {
+        throw new Error('not authenticated')
+      }
+      if (doc.userId !== args.userId) {
+        throw new Error('not authorised')
+      }
     }
 
     return doc
