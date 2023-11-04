@@ -58,7 +58,7 @@ const Banner = ({ docId }: { docId: Id<'documents'> }) => {
   }
 
   return (
-    <div className='w-full bg-rose-600 text-white dark:bg-destructive-foreground dark:text-destructive-foreground flex items-center justify-center gap-2 p-2'>
+    <div className='w-full bg-rose-600 text-white flex items-center justify-center gap-2 p-2'>
       <p>This page is in the trash.</p>
       <Button
         onClick={onRestore}
