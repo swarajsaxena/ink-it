@@ -57,23 +57,26 @@ const ChildrenDocuments = ({
   return (
     documents &&
     documents?.length > 0 && (
-      <div className='text-muted-foreground grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 px-[48px] py-4'>
-        {documents?.map((child) => (
-          <div className='flex items-center gap-2 group'>
-            <ChevronRight className='w-4 h-4 group-hover:translate-x-1 transition-all' />
-            <Button
-              onClick={() => {
-                router.push(`/documents/${child._id}`)
-              }}
-              variant={'default'}
-              size={'sm'}
-              className='font-normal h-auto py-1 px-2 max-w-full  bg-secondary hover:text-muted dark:hover:bg-primary text-foreground dark:hover:text-primary-foreground w-full truncate flex justify-start'
-            >
-              {!!child.icon && <p className='mr-1'>{child.icon}</p>}
-              {child.title}
-            </Button>
-          </div>
-        ))}
+      <div className='text-muted-foreground grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 px-[48px] py-4 [direction : rtl;]'>
+        {documents
+          ?.slice()
+          .reverse()
+          .map((child) => (
+            <div className='flex items-center gap-2 group [direction : ltr;]'>
+              <ChevronRight className='w-4 h-4 group-hover:translate-x-1 transition-all' />
+              <Button
+                onClick={() => {
+                  router.push(`/documents/${child._id}`)
+                }}
+                variant={'default'}
+                size={'sm'}
+                className='font-normal h-auto py-1 px-2 max-w-full  bg-secondary hover:text-muted dark:hover:bg-primary text-foreground dark:hover:text-primary-foreground w-full truncate flex justify-start'
+              >
+                {!!child.icon && <p className='mr-1'>{child.icon}</p>}
+                {child.title}
+              </Button>
+            </div>
+          ))}
         <div className='flex items-center gap-2 group'>
           <ChevronRight className='w-4 h-4 group-hover:translate-x-1 transition-all opacity-0' />
           <Button

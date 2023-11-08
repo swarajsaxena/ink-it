@@ -67,7 +67,7 @@ const page = ({
 
   return (
     <ProtectedRoute>
-      <div className='pt-[62px] h-full bg-background  dark:bg-[#1a1f28] pb-40'>
+      <div className='pt-[62px] h-max min-h-screen bg-background  dark:bg-[#1a1f28] pb-40'>
         <Cover url={document.coverImage as string} />
         <div className='md:max-w-3xl lg:max-w-4xl mx-auto pb-40 flex flex-col justify-stretch'>
           <Toolbar initialData={document} />

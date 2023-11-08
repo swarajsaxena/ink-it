@@ -66,7 +66,7 @@ const Navbar = ({
           <X className='w-4 h-4' />
         </Button>
         <div className='flex items-center gap-2 justify-between w-full'>
-          <div className='flex items-center gap-2'>
+          <div className='items-center gap-2 hidden md:flex'>
             {newParents
               ? newParents.length > 4
                 ? newParents
@@ -74,19 +74,15 @@ const Navbar = ({
                     .map((parent, index) =>
                       index === 0 ? (
                         <>
-                          {true && (
-                            <>
-                              <div
-                                onClick={() => {
-                                  router.push(`/documents/${parent.id}`)
-                                }}
-                                className='font-normal capitalize aspect-square rounded-md grid place-content-center cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors'
-                              >
-                                <MoreHorizontal className='w-4 h-4' />
-                              </div>
-                              <ChevronRight className='w-4 h-4' />
-                            </>
-                          )}
+                          <div
+                            onClick={() => {
+                              router.push(`/documents/${parent.id}`)
+                            }}
+                            className='font-normal capitalize aspect-square rounded-md grid place-content-center cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors'
+                          >
+                            <MoreHorizontal className='w-4 h-4' />
+                          </div>
+                          <ChevronRight className='w-4 h-4' />
                         </>
                       ) : (
                         <>
@@ -133,8 +129,8 @@ const Navbar = ({
                       )
                   )
               : null}
-            <Title initialData={document} />
           </div>
+          <Title initialData={document} />
           <div className='flex items-center gap-1'>
             <Publish initialData={document} />
             <MoreOptions docId={document._id} />

@@ -11,6 +11,8 @@ import { useParams, useRouter } from 'next/navigation'
 import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { Spinner } from '@/components/Spinner'
+import { BlockNoteEditor, PartialBlock } from '@blocknote/core'
+import { useBlockNote } from '@blocknote/react'
 
 const page = ({
   params,
@@ -54,7 +56,7 @@ const page = ({
   }
 
   return (
-    <div className='h-full bg-background  dark:bg-[#1a1f28] pb-40'>
+    <div className='h-full bg-background  dark:bg-[#1a1f28] pb-40 overflow-y-auto'>
       <Cover
         preview
         url={document.coverImage as string}
@@ -65,9 +67,9 @@ const page = ({
           initialData={document}
         />
         <Editor
-          editable={false}
           onChange={onChange}
           initialContent={document.content as string}
+          editable={false}
         />
       </div>
     </div>

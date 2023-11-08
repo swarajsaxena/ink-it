@@ -148,7 +148,6 @@ const Publish = ({ initialData }: { initialData: Doc<'documents'> }) => {
               >
                 <Button
                   disabled={isSubmitting}
-                  onClick={onUnpublish}
                   className='text-xs p-3 w-max rounded-md h-8'
                   size={'icon'}
                 >

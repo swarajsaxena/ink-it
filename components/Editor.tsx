@@ -10,7 +10,7 @@ import { useEdgeStore } from '@/lib/edgestore'
 const Editor = ({
   initialContent,
   onChange,
-  editable,
+  editable = true,
 }: {
   onChange: (val: string) => void
   initialContent: string
@@ -34,6 +34,7 @@ const Editor = ({
       onChange(JSON.stringify(editor.topLevelBlocks, null, 2))
     },
     uploadFile: handleUpload,
+    editable: editable,
   })
   return (
     <BlockNoteView

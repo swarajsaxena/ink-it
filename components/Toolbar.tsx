@@ -32,7 +32,10 @@ const Toolbar = ({
     setTimeout(() => {
       setValue(initialData.title)
       inputRef.current?.focus()
-      inputRef.current?.setSelectionRange(inputRef.current.value.length, inputRef.current.value.length)
+      inputRef.current?.setSelectionRange(
+        inputRef.current.value.length,
+        inputRef.current.value.length
+      )
     }, 0)
   }
 
@@ -73,55 +76,56 @@ const Toolbar = ({
 
   return (
     <div className='pl-[54px] group relative -space-y-2'>
-      {!!initialData.icon ? (
-        !preview ? (
-          <div className='flex items-center gap-2 group-icon relative w-max -ml-[10px] -mt-12'>
+      <div className='flex items-end gap-4'>
+        {!!initialData.icon &&
+          (!preview ? (
+            <div className='flex items-center gap-2 group-icon relative w-max -ml-[10px] -mt-12'>
+              <IconPicker
+                asChild
+                onChange={onIconSelect}
+              >
+                <p className='text-7xl cursor-pointer hover:opacity-75 transition mb-1'>
+                  {initialData.icon}
+                </p>
+              </IconPicker>
+              <div
+                onClick={onIconRemove}
+                className='absolute -right-1 -bottom-1 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition text-muted-foreground text-xs cursor-pointer border border-transparent hover:border-input p-1 bg-background/70 hover:bg-background'
+              >
+                <X className='h-4 w-4' />
+              </div>
+            </div>
+          ) : (
+            <p className='text-6xl pt-6'>{initialData.icon}</p>
+          ))}
+        <div className='opacity-0 group-hover:opacity-100 transition-all flex items-center gap-1 pt-6 -ml-[10px]'>
+          {!initialData.icon && !preview && (
             <IconPicker
               asChild
               onChange={onIconSelect}
             >
-              <p className='text-7xl cursor-pointer hover:opacity-75 transition'>
-                {initialData.icon}
-              </p>
+              <Button
+                className='text-muted-foreground text-start px-2 py-1 h-auto'
+                variant={'ghost'}
+                size={'sm'}
+              >
+                <Smile className='h-4 w-4 mr-1' />
+                Add Icon
+              </Button>
             </IconPicker>
-            <div
-              onClick={onIconRemove}
-              className='absolute -right-1 -bottom-1 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition text-muted-foreground text-xs cursor-pointer border border-transparent hover:border-input p-1 bg-background/70 hover:bg-background'
-            >
-              <X className='h-4 w-4' />
-            </div>
-          </div>
-        ) : (
-          <p className='text-6xl pt-6'>{initialData.icon}</p>
-        )
-      ) : null}
-      <div className='opacity-0 group-hover:opacity-100 transition-all flex items-center gap-1 pt-6 pb-3 -ml-[10px]'>
-        {!initialData.icon && !preview && (
-          <IconPicker
-            asChild
-            onChange={onIconSelect}
-          >
+          )}
+          {!initialData.coverImage && !preview && (
             <Button
+              onClick={converImage.onOpen}
               className='text-muted-foreground text-start px-2 py-1 h-auto'
               variant={'ghost'}
               size={'sm'}
             >
-              <Smile className='h-4 w-4 mr-1' />
-              Add Icon
+              <ImageIcon className='h-4 w-4 mr-1' />
+              Add Cover
             </Button>
-          </IconPicker>
-        )}
-        {!initialData.coverImage && !preview && (
-          <Button
-            onClick={converImage.onOpen}
-            className='text-muted-foreground text-start px-2 py-1 h-auto'
-            variant={'ghost'}
-            size={'sm'}
-          >
-            <ImageIcon className='h-4 w-4 mr-1' />
-            Add Cover
-          </Button>
-        )}
+          )}
+        </div>
       </div>
       {isEditing && !preview ? (
         <TextareaAutosize
@@ -132,12 +136,12 @@ const Toolbar = ({
           onChange={(e) => {
             onInput(e.target.value)
           }}
-          className='text-5xl bg-transparent font-bold break-words outline-none text-muted-foreground resize-none w-full no-scrollbar'
+          className='text-5xl bg-transparent font-bold break-words outline-none text-muted-foreground resize-none w-full no-scrollbar p-0 pt-4'
         />
       ) : (
         <div
           onClick={enableInput}
-          className='pb-[11.5px] text-5xl font-bold break-words outline-none text-muted-foreground'
+          className='pb-[11.5px] text-5xl font-bold break-words outline-none text-muted-foreground pt-4'
         >
           {initialData.title}
         </div>

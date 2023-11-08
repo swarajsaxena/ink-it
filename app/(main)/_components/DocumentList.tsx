@@ -71,30 +71,33 @@ const DocumentList = ({
           <span className='pl-[27px]'>No Pages Inside</span>
         </p>
       )}
-      {documents.map((document) => (
-        <div
-          key={document._id}
-          style={{}}
-        >
-          <Item
-            docId={document._id}
-            onClick={() => onRedirect(document._id)}
-            label={document.title}
-            icon={FileIcon}
-            documentIcon={document.icon}
-            active={params.documentId === document._id}
-            level={level}
-            onExpand={() => onExpand(document._id)}
-            expanded={expanded[document._id]}
-          />
-          {expanded[document._id] && (
-            <DocumentList
-              parentDocId={document._id}
-              level={level + 1}
+      {documents
+        ?.slice()
+        .reverse()
+        .map((document) => (
+          <div
+            key={document._id}
+            style={{}}
+          >
+            <Item
+              docId={document._id}
+              onClick={() => onRedirect(document._id)}
+              label={document.title}
+              icon={FileIcon}
+              documentIcon={document.icon}
+              active={params.documentId === document._id}
+              level={level}
+              onExpand={() => onExpand(document._id)}
+              expanded={expanded[document._id]}
             />
-          )}
-        </div>
-      ))}
+            {expanded[document._id] && (
+              <DocumentList
+                parentDocId={document._id}
+                level={level + 1}
+              />
+            )}
+          </div>
+        ))}
     </div>
   )
 }

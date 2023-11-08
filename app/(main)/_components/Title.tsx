@@ -44,7 +44,7 @@ const Title = ({ initialData }: { initialData: Doc<'documents'> }) => {
   }
 
   return (
-    <div className='flex items-center gap-1'>
+    <div className='flex items-center gap-1 mr-auto'>
       {isEditing ? (
         <Input
           ref={inputRef}
