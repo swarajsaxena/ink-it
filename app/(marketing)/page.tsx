@@ -49,14 +49,21 @@ const page = () => {
   > | null>()
 
   useEffect(() => {
-    document.body.style.overflow = ''
     provider.then((val) => {
       setProviders(val)
     })
   }, [])
 
+  useEffect(() => {
+    // document.body.style.overflowY = 'scroll'
+
+    return () => {
+      // document.body.style.overflowY = 'auto'
+    }
+  }, [])
+
   return (
-    <div className='min-h-[100vh] flex flex-col dark:bg-background overflow-y-scroll'>
+    <div className='max-h-[100vh] flex flex-col dark:bg-background overflow-y-auto h-full'>
       <div className='flex p-4 pb-0 w-full items-center justify-between gap-2'>
         <div className='font-bold text-base md:text-xl'>Ink It</div>
         <Button
@@ -224,7 +231,7 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className='flex text-sm flex-col justify-center items-center md:flex-row gap-4 text-muted-foreground'>
+        <div className='flex text-sm flex-col justify-center items-center md:flex-row gap-4 text-muted-foreground pt-8'>
           <div className=''>
             Made By{' '}
             <a href=''>
