@@ -64,17 +64,16 @@ const ChildrenDocuments = ({
           .map((child) => (
             <div className='flex items-center gap-2 group [direction : ltr;]'>
               <ChevronRight className='w-4 h-4 group-hover:translate-x-1 transition-all' />
-              <Button
-                onClick={() => {
-                  router.push(`/documents/${child._id}`)
-                }}
-                variant={'default'}
-                size={'sm'}
-                className='font-normal h-auto py-1 px-2 max-w-full  bg-secondary hover:text-muted dark:hover:bg-primary text-foreground dark:hover:text-primary-foreground w-full truncate flex justify-start'
-              >
-                {!!child.icon && <p className='mr-1'>{child.icon}</p>}
-                {child.title}
-              </Button>
+              <Link className='w-full' href={`/documents/${child._id}`}>
+                <Button
+                  variant={'default'}
+                  size={'sm'}
+                  className='font-normal h-auto py-1 px-2 max-w-full  bg-secondary hover:text-muted dark:hover:bg-primary text-foreground dark:hover:text-primary-foreground w-full truncate flex justify-start'
+                >
+                  {!!child.icon && <p className='mr-1'>{child.icon}</p>}
+                  {child.title}
+                </Button>
+              </Link>
             </div>
           ))}
         <div className='flex items-center gap-2 group'>

@@ -21,6 +21,7 @@ import {
   Trash,
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { HTMLAttributes, MouseEventHandler } from 'react'
 
@@ -126,7 +127,7 @@ const Item = ({
   }
   return (
     <div
-      onClick={onClick}
+      onClick={!!docId ? () => {} : onClick}
       role='button'
       style={{
         paddingLeft: level ? `${(level + 1) * 12}px` : docId ? '12px' : '20px',
@@ -151,12 +152,14 @@ const Item = ({
           />
         </div>
       )}
-      {documentIcon ? (
-        <span className='-ml-2 -mr-1'>{documentIcon}</span>
-      ) : (
-        <Icon className='w-4 h-4 -ml-1 -mr-[2px]' />
-      )}
-      <span className='truncate'>{label}</span>
+      <Link href={'/documents/' + docId} className='flex gap-4 items-center '>
+        {documentIcon ? (
+          <span className='-ml-2 -mr-1'>{documentIcon}</span>
+        ) : (
+          <Icon className='w-4 h-4 -ml-1 -mr-[2px]' />
+        )}
+        <span className='truncate'>{label}</span>
+      </Link>
       {isSearch && (
         <kbd className='ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium'>
           <span className=''>CTRL</span>K
