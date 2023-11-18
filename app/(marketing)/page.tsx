@@ -226,7 +226,7 @@ const page = () => {
               </div>
               <div className='font-bold text-2xl'>Innovative</div>
               <div className='max-w-xs text-center text-muted-foreground'>
-                NoteApp offers a unique and innovative approach to note-taking.
+                Ink It offers a unique and innovative approach to note-taking.
               </div>
             </div>
           </div>
